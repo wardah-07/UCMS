@@ -7,18 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 enum Role {
   ADMIN
   ORGANIZER
   STUDENT
 }
 
+enum EventStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
+
+
 model User {
-  id        Int    @id @default(autoincrement())
+  id        Int            @id @default(autoincrement())
   name      String
-  email     String @unique
+  email     String         @unique
   password  String
-  role      Role   @default(STUDENT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt 
+  role      Role           @default(STUDENT)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt 
+  memberships Membership[] 
+  events    Event[]
+}
+
+model Club {
+  id          Int          @id @default(autoincrement())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt 
+  memberships Membership[]
+  events      Event[]
+}
+
+model Membership {
+  id     Int        @id @default(autoincrement())
+  userId Int
+  clubId Int
+  isManager Boolean @default(false)
+  user   User       @relation(fields: [userId], references: [id])
+  club   Club       @relation(fields: [clubId], references: [id])
+
+  @@unique([userId, clubId])
+}
+
+model Event {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  status      EventStatus @default(PENDING)
+  clubId      Int
+  createdById Int
+  club        Club        @relation(fields: [clubId], references: [id])
+  createdBy   User        @relation(fields: [createdById], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt 
 }
