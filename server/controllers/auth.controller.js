@@ -1,4 +1,6 @@
 import { AppError } from "../utils/AppError.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export async function registerUser(req, res) {
   const { email, name, password } = req.body; // already validated by middleware
@@ -22,7 +24,39 @@ export async function registerUser(req, res) {
 }
 
 export async function loginUser(req, res) {
-  //ss
+  const { email, password } = req.body; // validated by Zod middleware already
+  const normalizedEmail = email.toLowerCase();
+
+  const user = await prisma.user.findUnique({
+    where: { email: normalizedEmail },
+  });
+
+  if (!user) {
+    throw new AppError("invalid email or password", 401);
+  }
+
+  const passwordMatches = await bcrypt.compare(password, user.password);
+
+  if (!passwordMatches) {
+    throw new AppError("invalid email or password", 401);
+  }
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "30m",
+  });
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 15 * 60 * 1000,
+  });
+
+  return res.status(200).json({
+    id: user.id,
+    email: user.email,
+    name: user.name,
+  });
 }
 
 export async function logoutUser(req, res) {
