@@ -43,7 +43,7 @@ export async function loginUser(req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "15m",
   });
 
   res.cookie("token", token, {
@@ -61,5 +61,11 @@ export async function loginUser(req, res) {
 }
 
 export async function logoutUser(req, res) {
-  //ss
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  });
+
+  return res.status(200).json({ message: "logged out" });
 }

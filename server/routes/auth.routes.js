@@ -6,9 +6,10 @@ import {
   logoutUser,
   registerUser,
 } from "../controllers/auth.controller.js";
+import { requireAuth } from "../middleware/requireAuth.mw.js";
 
 export const authRouter = Router();
 
 authRouter.post("/register", validateSchema(registerSchema), registerUser);
 authRouter.post("/login", validateSchema(loginSchema), loginUser);
-authRouter.get("/logout", logoutUser);
+authRouter.post("/logout", requireAuth, logoutUser);
