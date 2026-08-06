@@ -1,6 +1,7 @@
 import { AppError } from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import prisma from "../db/prisma.js";
 
 export async function registerUser(req, res) {
   const { email, name, password } = req.body; // already validated by middleware
