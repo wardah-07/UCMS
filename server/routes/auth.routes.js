@@ -6,7 +6,7 @@ import {
   logoutUser,
   registerUser,
 } from "../controllers/auth.controller.js";
-import { requireAuth } from "../middleware/requireAuth.mw.js";
+import { requireAuth } from "../middleware/auth/requireAuth.mw.js";
 
 export const authRouter = Router();
 

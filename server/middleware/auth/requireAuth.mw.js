@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AppError } from "../utils/AppError.js";
+import { AppError } from "../../utils/AppError.js";
 
 export async function requireAuth(req, res, next) {
   const token = req.cookies.token;
@@ -10,7 +10,7 @@ export async function requireAuth(req, res, next) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: payload.userId };
+    req.user = { id: payload.userId, role: payload.role };
     next();
   } catch (err) {
     throw new AppError("invalid or expired token", 401);
