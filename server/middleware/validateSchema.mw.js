@@ -1,6 +1,6 @@
 import { AppError } from "../utils/AppError.js";
 
-export function validateSchema(schema) {
+function validateSchema(schema) {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
 
@@ -15,3 +15,5 @@ export function validateSchema(schema) {
     next();
   };
 }
+
+export default validateSchema;

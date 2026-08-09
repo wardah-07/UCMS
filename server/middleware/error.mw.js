@@ -1,4 +1,4 @@
-export function errorMiddleware(err, req, res, next) {
+function errorMiddleware(err, req, res, next) {
   console.error(err); // always log server-side, even if you hide details from the client
 
   // Your own custom errors (see below)
@@ -9,3 +9,5 @@ export function errorMiddleware(err, req, res, next) {
   // Fallback — never leak stack traces or internals to the client
   return res.status(500).json({ error: "internal server error" });
 }
+
+export default errorMiddleware;

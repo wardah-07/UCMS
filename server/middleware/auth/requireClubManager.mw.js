@@ -2,7 +2,7 @@ import prisma from "../../db/prisma";
 import { AppError } from "../../utils/AppError";
 
 //requires requireAuth.mw beforehand & req.params.clubId
-export async function requireClubManager(req, res, next) {
+async function requireClubManager(req, res, next) {
   const reqClubId = parseInt(req.params.clubId, 10);
 
   const userMembership = await prisma.membership.findUnique({
@@ -16,3 +16,5 @@ export async function requireClubManager(req, res, next) {
 
   next();
 }
+
+export default requireClubManager;
