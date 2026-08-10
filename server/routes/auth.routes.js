@@ -1,6 +1,6 @@
 import { Router } from "express";
 import validateSchema from "../middleware/validateSchema.mw.js";
-import { registerSchema, loginSchema } from "../schemas/auth.schema.js";
+import { registerSchema, loginSchema } from "@ucms/shared";
 import {
   loginUser,
   logoutUser,
