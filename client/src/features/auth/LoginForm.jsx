@@ -26,24 +26,42 @@ export function LoginForm() {
   }
 
   return (
-    <div>
-      <h2>Login form:</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("email")} placeholder="Email" />
-        {errors.email && <p>{errors.email.message}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
+        <input
+          {...register("email")}
+          placeholder="Email"
+          className="rounded-lg border border-border bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+        />
+        {errors.email && (
+          <p className="text-sm text-danger">{errors.email.message}</p>
+        )}
+      </div>
 
+      <div className="flex flex-col gap-1.5">
         <input
           {...register("password")}
           type="password"
           placeholder="Password"
+          className="rounded-lg border border-border bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-sm text-danger">{errors.password.message}</p>
+        )}
+      </div>
 
-        <button type="submit" disabled={login.isPending}>
-          {login.isPending ? "Logging in..." : "Login"}
-        </button>
-        {login.isError && <p>{getErrorMessage(login.error)}</p>}
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={login.isPending}
+        className="mt-1 cursor-pointer rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {login.isPending ? "Logging in..." : "Login"}
+      </button>
+      {login.isError && (
+        <p className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
+          {getErrorMessage(login.error)}
+        </p>
+      )}
+    </form>
   );
 }

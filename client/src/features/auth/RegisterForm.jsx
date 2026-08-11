@@ -20,32 +20,58 @@ export function RegisterForm() {
 
   function onSubmit(data) {
     registerUser.mutate(data, {
-      onSuccess: () => navigate(ROUTES.HOME, { replace: true }),
+      onSuccess: () => navigate(ROUTES.AUTH, { replace: true }),
     });
   }
 
   return (
-    <div>
-      <h2>Register form:</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("email")} placeholder="Email" />
-        {errors.email && <p>{errors.email.message}</p>}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
+        <input
+          {...register("name")}
+          placeholder="Name"
+          className="rounded-lg border border-border bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+        />
+        {errors.name && (
+          <p className="text-sm text-danger">{errors.name.message}</p>
+        )}
+      </div>
 
-        <input {...register("name")} placeholder="Name" />
-        {errors.name && <p>{errors.name.message}</p>}
+      <div className="flex flex-col gap-1.5">
+        <input
+          {...register("email")}
+          placeholder="Email"
+          className="rounded-lg border border-border bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+        />
+        {errors.email && (
+          <p className="text-sm text-danger">{errors.email.message}</p>
+        )}
+      </div>
 
+      <div className="flex flex-col gap-1.5">
         <input
           {...register("password")}
           type="password"
           placeholder="Password"
+          className="rounded-lg border border-border bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-soft focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
         />
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className="text-sm text-danger">{errors.password.message}</p>
+        )}
+      </div>
 
-        <button type="submit" disabled={registerUser.isPending}>
-          {registerUser.isPending ? "Registering..." : "Register"}
-        </button>
-        {registerUser.isError && <p>{getErrorMessage(registerUser.error)}</p>}
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={registerUser.isPending}
+        className="mt-1 cursor-pointer rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {registerUser.isPending ? "Registering..." : "Register"}
+      </button>
+      {registerUser.isError && (
+        <p className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">
+          {getErrorMessage(registerUser.error)}
+        </p>
+      )}
+    </form>
   );
 }
