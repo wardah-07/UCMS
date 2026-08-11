@@ -17,7 +17,11 @@ export async function registerUser(req, res) {
   const passwordHash = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
-    data: { email: normalizedEmail, name: name, password: passwordHash },
+    data: {
+      email: normalizedEmail,
+      name,
+      password: passwordHash,
+    },
     select: { id: true, email: true, name: true },
   });
 
@@ -42,9 +46,13 @@ export async function loginUser(req, res) {
     throw new AppError("invalid email or password", 401);
   }
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "15m",
-  });
+  const token = jwt.sign(
+    { userId: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "15m",
+    },
+  );
 
   res.cookie("token", token, {
     httpOnly: true,
