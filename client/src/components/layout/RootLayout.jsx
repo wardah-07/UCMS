@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router";
-import { useCurrentUser, useLogout } from "../../features/auth/queries";
-import { getErrorMessage } from "../../lib/apiClient";
-import { ROUTES } from "../../constants/routes";
+import { useCurrentUser, useLogout } from "@/features/auth";
+import { getErrorMessage } from "@/lib/apiClient";
+import { ROUTES } from "@/constants/routes";
 
 export default function RootLayout() {
   const navigate = useNavigate();
@@ -27,7 +27,9 @@ export default function RootLayout() {
             {logout.isError && <p>{getErrorMessage(logout.error)}</p>}
           </>
         )}
-        <button onClick={() => navigate(ROUTES.AUTH)}>Login</button>
+        {!user && (
+          <button onClick={() => navigate(ROUTES.AUTH)}>Login</button>
+        )}
       </nav>
       <Outlet context={{ user }} />
     </div>

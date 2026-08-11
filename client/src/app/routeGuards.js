@@ -1,8 +1,8 @@
 import { redirect } from "react-router";
 import { queryClient } from "./queryClient";
-import { userQueryKey, fetchCurrentUser } from "../features/auth/queries";
-import { getHomeRouteForRole } from "../util/getHomeRouteForRole";
-import { ROUTES } from "../constants/routes";
+import { userQueryKey, fetchCurrentUser } from "@/features/auth";
+import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
+import { ROUTES } from "@/constants/routes";
 
 function getUser() {
   return queryClient.ensureQueryData({
@@ -26,8 +26,8 @@ export function redirectIfAuthenticated(fallback) {
 export function requireRole(role) {
   return async function loader() {
     const user = await getUser();
-    if (!user) throw redirect(ROUTES.AUTH);
+    if (!user) throw redirect(ROUTES.STUDENT);
     if (user.role !== role) throw redirect(getHomeRouteForRole(user.role));
-    return user;
+    return null;
   };
 }

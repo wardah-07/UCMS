@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { LoginForm } from "./LoginForm";
-import { RegisterForm } from "./RegisterForm";
+import { LoginForm, RegisterForm } from "@/features/auth";
 
-export function AuthPage() {
+export default function AuthPage() {
   const [showRegister, setShowRegister] = useState(false);
 
   return (

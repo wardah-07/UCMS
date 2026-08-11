@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router";
-import { AuthPage } from "../features/auth/AuthPage";
+import AuthPage from "@/pages/auth/AuthPage";
 import { redirectIfAuthenticated, requireRole } from "./routeGuards";
-import RootLayout from "../components/layout/RootLayout";
-import StudentDashboard from "../pages/student/StudentDashboard";
-import OrganizerDashboard from "../pages/organizer/OrganizerDashboard";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import NotFound from "../pages/NotFound";
-import { ROUTES } from "../constants/routes";
+import RootLayout from "@/components/layout/RootLayout";
+import StudentDashboard from "@/pages/student/StudentDashboard";
+import OrganizerDashboard from "@/pages/organizer/OrganizerDashboard";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import NotFound from "@/pages/NotFound";
+import { ROUTES } from "@/constants/routes";
 
 // child route paths under the pathless RootLayout must be relative
 const relative = (path) => path.slice(1);

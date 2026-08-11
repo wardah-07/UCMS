@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@ucms/shared";
 import { useNavigate } from "react-router";
 import { useRegister } from "./queries";
-import { getErrorMessage } from "../../lib/apiClient";
-import { ROUTES } from "../../constants/routes";
+import { getErrorMessage } from "@/lib/apiClient";
+import { ROUTES } from "@/constants/routes";
 
 export function RegisterForm() {
   const navigate = useNavigate();

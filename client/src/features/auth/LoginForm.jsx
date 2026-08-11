@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@ucms/shared";
 import { useNavigate } from "react-router";
 import { useLogin } from "./queries";
-import { getErrorMessage } from "../../lib/apiClient";
-import { getHomeRouteForRole } from "../../util/getHomeRouteForRole";
+import { getErrorMessage } from "@/lib/apiClient";
+import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
 
 export function LoginForm() {
   const navigate = useNavigate();
