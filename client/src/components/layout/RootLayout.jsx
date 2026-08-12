@@ -14,7 +14,7 @@ const DASHBOARD_LABEL_BY_ROLE = {
 export default function RootLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: user } = useCurrentUser();
+  const { data: user, isError, error } = useCurrentUser();
   const logout = useLogout();
   const isAuthPage = location.pathname === ROUTES.AUTH;
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -73,6 +73,19 @@ export default function RootLayout() {
           </button>
         )}
       </nav>
+      {isError && (
+        <div className="border-b border-danger/30 bg-danger/10 px-6 py-2 text-sm text-danger">
+          Couldn't verify your session ({getErrorMessage(error)}). Some
+          features may be unavailable —{" "}
+          <button
+            onClick={() => window.location.reload()}
+            className="cursor-pointer underline underline-offset-2 hover:no-underline"
+          >
+            reload
+          </button>{" "}
+          to try again.
+        </div>
+      )}
       <Outlet context={{ user }} />
 
       <ConfirmDialog
