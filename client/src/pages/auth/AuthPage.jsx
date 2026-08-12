@@ -17,7 +17,11 @@ export default function AuthPage() {
         </p>
 
         <div className="mt-6">
-          {showRegister ? <RegisterForm /> : <LoginForm />}
+          {showRegister ? (
+            <RegisterForm onSuccess={() => setShowRegister(false)} />
+          ) : (
+            <LoginForm />
+          )}
         </div>
 
         <button
