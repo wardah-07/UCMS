@@ -1,3 +1,5 @@
+import { AppError } from "../utils/AppError.js";
+import bcrypt from "bcrypt";
 import prisma from "../db/prisma.js";
 
 export async function createUser(req, res) {

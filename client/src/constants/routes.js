@@ -1,7 +1,11 @@
 export const ROUTES = {
   HOME: "/",
   AUTH: "/auth",
+  //admin
+  ADMIN: "/admin",
+  ADMIN_USER_MANAGEMENT: "/users",
+  //student
   STUDENT: "/student",
-  ORGANIZER_DASHBOARD: "/organizer/dashboard",
-  ADMIN_DASHBOARD: "/admin/dashboard",
+  //organizer
+  ORGANIZER: "/organizer",
 };

@@ -8,6 +8,7 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import NotFound from "@/pages/NotFound";
 import RouteError from "@/components/layout/RouteError";
 import { ROUTES } from "@/constants/routes";
+import UserOperations from "@/pages/admin/UserOperations";
 
 // child route paths under the pathless RootLayout must be relative
 const relative = (path) => path.slice(1);
@@ -28,18 +29,30 @@ export const router = createBrowserRouter([
       {
         path: relative(ROUTES.AUTH),
         element: <AuthPage />,
-        loader: redirectIfAuthenticated(ROUTES.STUDENT),
+        loader: redirectIfAuthenticated(),
       },
-      { path: relative(ROUTES.STUDENT), element: <StudentDashboard /> },
       {
-        path: relative(ROUTES.ORGANIZER_DASHBOARD),
-        element: <OrganizerDashboard />,
+        path: ROUTES.STUDENT,
+        children: [{ index: true, element: <StudentDashboard /> }],
+      },
+      {
+        path: ROUTES.ORGANIZER,
         loader: requireRole("ORGANIZER"),
+        children: [{ index: true, element: <OrganizerDashboard /> }],
       },
       {
-        path: relative(ROUTES.ADMIN_DASHBOARD),
-        element: <AdminDashboard />,
+        path: ROUTES.ADMIN,
         loader: requireRole("ADMIN"),
+        children: [
+          {
+            index: true,
+            element: <AdminDashboard />,
+          },
+          {
+            path: relative(ROUTES.ADMIN_USER_MANAGEMENT),
+            element: <UserOperations />,
+          },
+        ],
       },
       { path: "*", element: <NotFound /> },
     ],

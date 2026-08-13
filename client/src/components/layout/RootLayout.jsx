@@ -75,8 +75,8 @@ export default function RootLayout() {
       </nav>
       {isError && (
         <div className="border-b border-danger/30 bg-danger/10 px-6 py-2 text-sm text-danger">
-          Couldn't verify your session ({getErrorMessage(error)}). Some
-          features may be unavailable —{" "}
+          Couldn't verify your session ({getErrorMessage(error)}). Some features
+          may be unavailable —{" "}
           <button
             onClick={() => window.location.reload()}
             className="cursor-pointer underline underline-offset-2 hover:no-underline"

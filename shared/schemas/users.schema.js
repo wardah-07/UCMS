@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const roleSchema = z.enum(["ADMIN", "ORGANIZER", "STUDENT"]);
+export const roleSchema = z.enum(["ADMIN", "ORGANIZER", "STUDENT"], {
+  required_error: "role is required",
+});
 
 export const userCreationSchema = z.object({
   email: z.string().trim().email("invalid email format"),

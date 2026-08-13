@@ -19,6 +19,7 @@ export function redirectIfAuthenticated(fallback) {
     const user = await getUser();
     if (user) throw redirect(getHomeRouteForRole(user.role));
     if (fallback) throw redirect(fallback);
+    //let user navigate to chosen route if no fallback
     return null;
   };
 }

@@ -2,9 +2,8 @@ import { apiClient } from "@/lib/apiClient";
 
 export const authApi = {
   async login(credentials) {
-    await apiClient.post("/auth/login", credentials);
-    // login response omits role, so fetch the full profile the rest of the app relies on
-    return authApi.me();
+    const { data: user } = await apiClient.post("/auth/login", credentials);
+    return user;
   },
 
   async register(data) {
