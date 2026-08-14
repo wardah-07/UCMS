@@ -14,7 +14,7 @@ const TABS = [
 ];
 
 const UserOperations = () => {
-  const [view, setView] = useState(null);
+  const [view, setView] = useState(VIEWS.MANAGE);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -30,7 +30,7 @@ const UserOperations = () => {
           <button
             key={tab.id}
             type="button"
-            onClick={() => setView(tab.id === view ? null : tab.id)}
+            onClick={() => setView(tab.id)}
             className={`w-36 cursor-pointer rounded-lg border border-border px-3.5 py-1.5 text-center text-sm font-medium transition-colors ${
               view === tab.id
                 ? "bg-brand text-white hover:bg-brand-hover"
@@ -43,11 +43,6 @@ const UserOperations = () => {
       </div>
 
       <div className="mt-6 rounded-2xl border border-border bg-surface p-6 shadow-sm">
-        {view === null && (
-          <p className="text-sm text-ink-soft">
-            Select "Create", "Manage", or "Other" above to get started.
-          </p>
-        )}
         {view === VIEWS.CREATE && <CreateUser />}
         {view === VIEWS.MANAGE && <ManageUsers />}
         {view === VIEWS.OTHER && <div>other</div>}

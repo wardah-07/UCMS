@@ -46,6 +46,10 @@ export async function loginUser(req, res) {
     throw new AppError("invalid email or password", 401);
   }
 
+  if (!user.isActive) {
+    throw new AppError("this account has been deactivated", 403);
+  }
+
   const token = jwt.sign(
     { userId: user.id, role: user.role },
     process.env.JWT_SECRET,

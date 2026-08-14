@@ -1,5 +1,5 @@
 {
-  "watch": ["server.js", "routes", "db", "middleware"],
+  "watch": ["server.js", "routes", "controllers", "db", "middleware", "utils"],
   "ext": "js,json",
   "ignore": ["node_modules", "*.sqlite"],
   "delay": 500
