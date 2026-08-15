@@ -1,6 +1,8 @@
-import { ROUTES } from "@/constants/routes";
+import { ROUTES, type Route } from "@/constants/routes";
 
-export function getHomeRouteForRole(role) {
+type Role = "ADMIN" | "ORGANIZER" | "STUDENT";
+
+export function getHomeRouteForRole(role: Role): Route {
   switch (role) {
     case "ADMIN":
       return ROUTES.ADMIN;
