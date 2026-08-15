@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -6,8 +6,8 @@ export const apiClient = axios.create({
 });
 
 export function getErrorMessage(
-  error,
+  error: AxiosError<{ message?: string }>,
   fallback = "Something went wrong. Please try again.",
 ) {
-  return error.response?.data?.error ?? fallback;
+  return error.response?.data?.message ?? fallback;
 }
