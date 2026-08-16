@@ -1,21 +1,24 @@
 {
-  "name": "ucms",
+  "name": "server",
   "version": "1.0.0",
-  "description": "University club management system",
+  "description": "University Club Management System - Server",
   "license": "ISC",
   "author": "MW",
   "type": "module",
-  "main": "src/server.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -b",
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "predev": "npm --prefix ../shared run build",
+    "dev": "tsx watch src/server.ts",
+    "prestart": "npm --prefix ../shared run build",
+    "start": "tsx src/server.ts",
+    "build": "npm --prefix ../shared run build && tsc -b"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.5",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "nodemon": "^3.1.14",
+    "tsx": "^4.23.12",
     "typescript": "^6.0.3"
   },
   "dependencies": {

@@ -1,6 +1,0 @@
-{
-  "watch": ["src"],
-  "ext": "js,ts,json",
-  "ignore": ["node_modules", "*.sqlite"],
-  "delay": 500
-}
