@@ -1,6 +1,5 @@
 import { ROUTES, type Route } from "@/constants/routes";
-
-type Role = "ADMIN" | "ORGANIZER" | "STUDENT";
+import type { Role } from "@ucms/shared";
 
 export function getHomeRouteForRole(role: Role): Route {
   switch (role) {

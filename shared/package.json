@@ -2,5 +2,15 @@
   "name": "@ucms/shared",
   "version": "1.0.0",
   "type": "module",
-  "main": "./index.js"
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2"
+  }
 }

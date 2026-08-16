@@ -5,16 +5,21 @@ const VIEWS = {
   CREATE: "create",
   MANAGE: "manage",
   OTHER: "other",
-};
+} as const;
 
-const TABS = [
+interface Tab {
+  id: string;
+  label: string;
+}
+
+const TABS: Tab[] = [
   { id: VIEWS.CREATE, label: "Create" },
   { id: VIEWS.MANAGE, label: "Manage" },
   { id: VIEWS.OTHER, label: "Other" },
 ];
 
 const UserOperations = () => {
-  const [view, setView] = useState(VIEWS.MANAGE);
+  const [view, setView] = useState<string>(VIEWS.MANAGE);
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-10">
@@ -26,7 +31,7 @@ const UserOperations = () => {
       </p>
 
       <div className="mt-6 flex gap-4">
-        {TABS.map((tab) => (
+        {TABS.map((tab: Tab) => (
           <button
             key={tab.id}
             type="button"

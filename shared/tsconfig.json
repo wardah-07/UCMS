@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+
+    /* This package runs as plain .ts, executed directly by Node (v23.6+
+       strips types natively) rather than compiled to a dist/ folder -
+       consumers (client's bundler, and eventually server once it's on TS
+       too) resolve straight to this source. */
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "skipLibCheck": true,
+
+    /* No legacy JS to migrate here (unlike client/) - this package is new
+       to TS, so it starts strict. */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["."]
+}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { LoginForm, RegisterForm } from "@/features/auth";
 
 export default function AuthPage() {
-  const [showRegister, setShowRegister] = useState(false);
+  const [showRegister, setShowRegister] = useState<boolean>(false);
 
   return (
     <div className="flex min-h-[calc(100vh-65px)] items-center justify-center px-4 py-12">
