@@ -8,10 +8,11 @@ import AdminDashboard from "@/pages/admin/AdminDashboard";
 import NotFound from "@/pages/NotFound";
 import RouteError from "@/components/layout/RouteError";
 import { ROUTES } from "@/constants/routes";
+import type { Route } from "@/constants/routes";
 import UserOperations from "@/pages/admin/UserOperations";
 
 // child route paths under the pathless RootLayout must be relative
-const relative = (path) => path.slice(1);
+const relative = (path: Route) => path.slice(1);
 
 export const router = createBrowserRouter([
   {

@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { authApi } from "./api";
+import type { User } from "@ucms/shared";
 
 export const userQueryKey = ["user"];
 
 // shared by useCurrentUser and the router loaders in app/routeGuards.js so
 // both read/write the exact same cache entry instead of fetching independently
-export async function fetchCurrentUser() {
+export async function fetchCurrentUser(): Promise<User | null> {
   try {
     return await authApi.me();
   } catch (err) {
-    if (err.response?.status === 401) return null;
+    if (axios.isAxiosError(err) && err.response?.status === 401) return null;
     throw err;
   }
 }
@@ -25,7 +27,7 @@ export function useLogin() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: authApi.login,
-    onSuccess: (user) => queryClient.setQueryData(userQueryKey, user),
+    onSuccess: (user: User) => queryClient.setQueryData(userQueryKey, user),
   });
 }
 

@@ -5,10 +5,12 @@ import { getErrorMessage } from "@/lib/apiClient";
 import { ROUTES } from "@/constants/routes";
 import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import type { Role } from "@ucms/shared";
 
-const DASHBOARD_LABEL_BY_ROLE = {
+const DASHBOARD_LABEL_BY_ROLE: Record<Role, string> = {
   ADMIN: "Admin Dashboard",
   ORGANIZER: "Organizer Dashboard",
+  STUDENT: "Home Page",
 };
 
 export default function RootLayout() {

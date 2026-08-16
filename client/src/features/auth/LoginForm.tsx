@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@ucms/shared";
+import type { LoginInput } from "@ucms/shared";
 import { useNavigate } from "react-router";
 import { useLogin } from "./queries";
 import { getErrorMessage } from "@/lib/apiClient";
 import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
 
-export function LoginForm() {
+export default function LoginForm() {
   const navigate = useNavigate();
   const login = useLogin();
 
@@ -14,11 +15,11 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
-  function onSubmit(data) {
+  function onSubmit(data: LoginInput) {
     login.mutate(data, {
       onSuccess: (user) =>
         navigate(getHomeRouteForRole(user.role), { replace: true }),

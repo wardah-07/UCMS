@@ -1,21 +1,22 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@ucms/shared";
+import type { RegisterInput } from "@ucms/shared";
 import { useRegister } from "./queries";
 import { getErrorMessage } from "@/lib/apiClient";
 
-export function RegisterForm({ onSuccess }) {
+export default function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
   const registerUser = useRegister();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
   });
 
-  function onSubmit(data) {
+  function onSubmit(data: RegisterInput) {
     registerUser.mutate(data, { onSuccess });
   }
 

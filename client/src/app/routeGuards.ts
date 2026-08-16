@@ -3,6 +3,8 @@ import { queryClient } from "./queryClient";
 import { userQueryKey, fetchCurrentUser } from "@/features/auth";
 import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
 import { ROUTES } from "@/constants/routes";
+import type { Route } from "@/constants/routes";
+import type { Role } from "@ucms/shared";
 
 function getUser() {
   return queryClient.ensureQueryData({
@@ -14,7 +16,7 @@ function getUser() {
 // Redirects authenticated users to their role's home route. When `fallback` is
 // given, unauthenticated users are redirected there too (e.g. "/"); when
 // omitted, unauthenticated users are left on the current route (e.g. "/auth").
-export function redirectIfAuthenticated(fallback) {
+export function redirectIfAuthenticated(fallback?: Route) {
   return async function loader() {
     const user = await getUser();
     if (user) throw redirect(getHomeRouteForRole(user.role));
@@ -24,7 +26,7 @@ export function redirectIfAuthenticated(fallback) {
   };
 }
 
-export function requireRole(role) {
+export function requireRole(role: Role) {
   return async function loader() {
     const user = await getUser();
     if (!user) throw redirect(ROUTES.STUDENT);

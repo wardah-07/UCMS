@@ -4,16 +4,17 @@ import { useCurrentUser } from "@/features/auth";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { getErrorMessage } from "@/lib/apiClient";
 import { roleSchema } from "@ucms/shared";
+import type { Role, User, UserUpdateInput } from "@ucms/shared";
 
 const ROLE_OPTIONS = roleSchema.options; // ["ADMIN", "ORGANIZER", "STUDENT"]
 
-const ROLE_BADGE_CLASSES = {
+const ROLE_BADGE_CLASSES: Record<Role, string> = {
   ADMIN: "bg-danger-soft text-danger",
   ORGANIZER: "bg-success-soft text-success",
   STUDENT: "bg-brand-soft text-brand",
 };
 
-const RoleBadge = ({ role }) => (
+const RoleBadge = ({ role }: { role: Role }) => (
   <span
     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
       ROLE_BADGE_CLASSES[role] ?? "bg-surface-muted text-ink-soft"
@@ -23,7 +24,7 @@ const RoleBadge = ({ role }) => (
   </span>
 );
 
-const StatusBadge = ({ isActive }) => (
+const StatusBadge = ({ isActive }: { isActive: boolean }) => (
   <span
     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
       isActive
@@ -39,11 +40,15 @@ const ManageUsers = () => {
   const { data: users, isError, error, isLoading } = useGetUsers();
   const { data: currentUser } = useCurrentUser();
   const updateUser = useUpdateUser();
-  const [pendingUser, setPendingUser] = useState(null); // user targeted by the confirm dialog
-  const [editingId, setEditingId] = useState(null); // id of the row currently in edit mode
-  const [draft, setDraft] = useState({ name: "", email: "", role: "STUDENT" });
+  const [pendingUser, setPendingUser] = useState<User | null>(null); // user targeted by the confirm dialog
+  const [editingId, setEditingId] = useState<number | null>(null); // id of the row currently in edit mode
+  const [draft, setDraft] = useState<UserUpdateInput>({
+    name: "",
+    email: "",
+    role: "STUDENT",
+  });
 
-  function startEdit(user) {
+  function startEdit(user: User) {
     setEditingId(user.id);
     setDraft({ name: user.name, email: user.email, role: user.role });
   }
@@ -52,7 +57,7 @@ const ManageUsers = () => {
     setEditingId(null);
   }
 
-  function saveEdit(id) {
+  function saveEdit(id: number) {
     updateUser.mutate(
       { id, updates: draft },
       { onSuccess: () => setEditingId(null) },
@@ -60,6 +65,7 @@ const ManageUsers = () => {
   }
 
   function handleConfirmToggle() {
+    if (!pendingUser) return;
     updateUser.mutate(
       { id: pendingUser.id, updates: { isActive: !pendingUser.isActive } },
       { onSettled: () => setPendingUser(null) },
@@ -93,9 +99,7 @@ const ManageUsers = () => {
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="border-b border-border bg-surface-muted">
-                <th className="px-4 py-2.5 font-medium text-ink-soft">
-                  Name
-                </th>
+                <th className="px-4 py-2.5 font-medium text-ink-soft">Name</th>
                 <th className="w-64 px-4 py-2.5 font-medium text-ink-soft">
                   Email
                 </th>
@@ -142,7 +146,10 @@ const ManageUsers = () => {
                         <select
                           value={draft.role}
                           onChange={(e) =>
-                            setDraft({ ...draft, role: e.target.value })
+                            setDraft({
+                              ...draft,
+                              role: e.target.value as Role,
+                            })
                           }
                           className="rounded-lg border border-border bg-surface px-2.5 py-1 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30"
                         >

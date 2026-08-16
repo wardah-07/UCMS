@@ -1,6 +1,17 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
+interface ConfirmDialogProps {
+  open: boolean;
+  title: string;
+  description?: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  isLoading?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
 export function ConfirmDialog({
   open,
   title,
@@ -10,11 +21,11 @@ export function ConfirmDialog({
   isLoading = false,
   onConfirm,
   onCancel,
-}) {
+}: ConfirmDialogProps) {
   useEffect(() => {
     if (!open) return;
 
-    function handleKeyDown(e) {
+    function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") onCancel();
     }
     document.addEventListener("keydown", handleKeyDown);
@@ -65,6 +76,6 @@ export function ConfirmDialog({
         </div>
       </div>
     </div>,
-    document.getElementById("modal-root"),
+    document.getElementById("modal-root")!,
   );
 }

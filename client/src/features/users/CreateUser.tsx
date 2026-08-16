@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userCreationSchema } from "@ucms/shared";
 import { getErrorMessage } from "@/lib/apiClient";
 import { useCreateUser } from "./queries";
+import type { UserCreationInput } from "@ucms/shared";
 
 const ROLES = [
   { id: "admin", value: "ADMIN", label: "ADMIN" },
@@ -23,7 +24,7 @@ const CreateUser = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(userCreationSchema) });
 
-  function onSubmit(data) {
+  function onSubmit(data: UserCreationInput) {
     createUser.mutate(data, { onSuccess: () => reset() });
   }
 

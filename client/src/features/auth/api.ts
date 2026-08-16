@@ -1,12 +1,13 @@
 import { apiClient } from "@/lib/apiClient";
+import type { RegisterInput, LoginInput } from "@ucms/shared";
 
 export const authApi = {
-  async login(credentials) {
+  async login(credentials: LoginInput) {
     const { data: user } = await apiClient.post("/auth/login", credentials);
     return user;
   },
 
-  async register(data) {
+  async register(data: RegisterInput) {
     const { data: user } = await apiClient.post("/auth/register", data);
     return user;
   },
