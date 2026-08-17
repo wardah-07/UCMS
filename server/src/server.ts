@@ -5,13 +5,25 @@ import { authRouter } from "./routes/auth.routes.js";
 import { meRouter } from "./routes/me.routes.js";
 import errorMiddleware from "./middleware/error.mw.js";
 import { usersRouter } from "./routes/users.routes.js";
+import type { Express } from "express";
 
-const app = express();
-const PORT = 3003;
+process.loadEnvFile();
+const PORT =
+  process.env.PORT ??
+  (() => {
+    throw new Error("PORT is not set");
+  })();
+const ORIGIN =
+  process.env.ORIGIN ??
+  (() => {
+    throw new Error("ORIGIN is not set");
+  })();
+
+const app: Express = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5003",
+    origin: ORIGIN,
     credentials: true,
   }),
 );
