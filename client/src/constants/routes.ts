@@ -8,6 +8,7 @@ export const ROUTES = {
   STUDENT: "/student",
   //organizer
   ORGANIZER: "/organizer",
+  ORGANIZER_CLUB_MANAGEMENT: "/clubs",
 } as const satisfies Record<string, `/${string}`>;
 
 // Union of every path string in ROUTES, derived instead of hand-written

@@ -1,12 +1,18 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import type { Role } from "@ucms/shared";
+import { z } from "zod";
+import { roleSchema } from "@ucms/shared";
 import { AppError } from "../../utils/AppError.js";
 
-interface AuthTokenPayload {
-  userId: number;
-  role: Role;
-}
+// jwt.verify only proves the signature is valid and the token isn't
+// expired - it says nothing about the payload's shape. Parsing the
+// decoded result against this schema (instead of just `as`-casting it)
+// makes sure req.user is only ever set from a payload that actually
+// looks like one we would have signed.
+const authTokenPayloadSchema = z.object({
+  userId: z.number().int(),
+  role: roleSchema,
+});
 
 async function requireAuth(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;
@@ -21,7 +27,8 @@ async function requireAuth(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    const payload = jwt.verify(token, jwtSecret) as AuthTokenPayload;
+    const decoded = jwt.verify(token, jwtSecret);
+    const payload = authTokenPayloadSchema.parse(decoded);
     req.user = { id: payload.userId, role: payload.role };
     next();
   } catch (err) {
