@@ -1,9 +1,14 @@
-import { AppError } from "../utils/AppError.js";
+import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import type { RegisterInput, LoginInput } from "@ucms/shared";
+import { AppError } from "../utils/AppError.js";
 import prisma from "../db/prisma.js";
 
-export async function registerUser(req, res) {
+export async function registerUser(
+  req: Request<{}, {}, RegisterInput>,
+  res: Response,
+) {
   const { email, name, password } = req.body; // already validated by middleware
   const normalizedEmail = email.toLowerCase();
 
@@ -28,7 +33,7 @@ export async function registerUser(req, res) {
   return res.status(201).json(user);
 }
 
-export async function loginUser(req, res) {
+export async function loginUser(req: Request<{}, {}, LoginInput>, res: Response) {
   const { email, password } = req.body; // validated by Zod middleware already
   const normalizedEmail = email.toLowerCase();
 
@@ -50,13 +55,14 @@ export async function loginUser(req, res) {
     throw new AppError("this account has been deactivated", 403);
   }
 
-  const token = jwt.sign(
-    { userId: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "15m",
-    },
-  );
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    throw new AppError("server misconfigured: missing JWT_SECRET", 500);
+  }
+
+  const token = jwt.sign({ userId: user.id, role: user.role }, jwtSecret, {
+    expiresIn: "15m",
+  });
 
   res.cookie("token", token, {
     httpOnly: true,
@@ -73,7 +79,7 @@ export async function loginUser(req, res) {
   });
 }
 
-export async function logoutUser(req, res) {
+export async function logoutUser(req: Request, res: Response) {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

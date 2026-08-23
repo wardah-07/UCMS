@@ -7,7 +7,7 @@
     "shared"
   ],
   "version": "1.0.0",
-  "description": "",
+  "description": "University Club Management System",
   "main": "",
   "scripts": {
     "test": ""
@@ -17,11 +17,14 @@
     "url": "git+https://github.com/wardah-07/UCMS.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "MW",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/wardah-07/UCMS/issues"
   },
-  "homepage": "https://github.com/wardah-07/UCMS#readme"
+  "homepage": "https://github.com/wardah-07/UCMS#readme",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10"
+  }
 }
