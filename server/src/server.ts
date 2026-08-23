@@ -8,16 +8,9 @@ import { usersRouter } from "./routes/users.routes.js";
 import type { Express } from "express";
 
 process.loadEnvFile();
-const PORT =
-  process.env.PORT ??
-  (() => {
-    throw new Error("PORT is not set");
-  })();
-const ORIGIN =
-  process.env.ORIGIN ??
-  (() => {
-    throw new Error("ORIGIN is not set");
-  })();
+const { PORT, ORIGIN } = process.env;
+if (!PORT) throw new Error("PORT is not set");
+if (!ORIGIN) throw new Error("ORIGIN is not set");
 
 const app: Express = express();
 

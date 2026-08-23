@@ -16,8 +16,11 @@
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.5",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "tsx": "^4.23.12",
     "typescript": "^6.0.3"
   },

@@ -1,9 +1,18 @@
-import prisma from "../../db/prisma";
-import { AppError } from "../../utils/AppError";
+import type { NextFunction, Request, Response } from "express";
+import prisma from "../../db/prisma.js";
+import { AppError } from "../../utils/AppError.js";
 
 //requires requireAuth.mw beforehand & req.params.clubId
-async function requireClubManager(req, res, next) {
-  const reqClubId = parseInt(req.params.clubId, 10);
+async function requireClubManager(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  if (!req.user) {
+    throw new AppError("not authenticated", 401);
+  }
+
+  const reqClubId = parseInt(req.params.clubId as string, 10);
 
   const userMembership = await prisma.membership.findUnique({
     where: { userId_clubId: { userId: req.user.id, clubId: reqClubId } },

@@ -1,8 +1,13 @@
-import { AppError } from "../utils/AppError.js";
+import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import type { UserCreationInput, UserUpdateInput } from "@ucms/shared";
+import { AppError } from "../utils/AppError.js";
 import prisma from "../db/prisma.js";
 
-export async function createUser(req, res) {
+export async function createUser(
+  req: Request<{}, {}, UserCreationInput>,
+  res: Response,
+) {
   const { email, name, password, role } = req.body;
   const normalizedEmail = email.toLowerCase();
 
@@ -28,7 +33,7 @@ export async function createUser(req, res) {
   return res.status(201).json(user);
 }
 
-export async function getUsers(req, res) {
+export async function getUsers(req: Request, res: Response) {
   const users = await prisma.user.findMany({
     orderBy: { id: "asc" },
     select: { id: true, email: true, name: true, role: true, isActive: true },
@@ -37,7 +42,14 @@ export async function getUsers(req, res) {
   return res.status(200).json(users);
 }
 
-export async function updateUser(req, res) {
+export async function updateUser(
+  req: Request<{ id: string }, {}, UserUpdateInput>,
+  res: Response,
+) {
+  if (!req.user) {
+    throw new AppError("not authenticated", 401);
+  }
+
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) {
     throw new AppError("invalid user id", 400);

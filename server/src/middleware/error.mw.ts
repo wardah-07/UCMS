@@ -1,8 +1,16 @@
-function errorMiddleware(err, req, res, next) {
+import type { NextFunction, Request, Response } from "express";
+import { AppError } from "../utils/AppError.js";
+
+function errorMiddleware(
+  err: unknown,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   console.error(err); // always log server-side, even if you hide details from the client
 
   // Your own custom errors (see below)
-  if (err.statusCode) {
+  if (err instanceof AppError) {
     return res.status(err.statusCode).json({ message: err.message });
   }
 

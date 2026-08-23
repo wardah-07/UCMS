@@ -17,6 +17,8 @@ UCMS (University Club Management System) — an npm workspaces monorepo with thr
 
 Run from the repo root unless noted. There is no root test runner configured.
 
+**Always use `--workspace=<pkg>` from the repo root, even for ad-hoc commands not listed below** (e.g. `npm install -D <pkg> --workspace=server`) — do not `cd` into `client/`/`server/`/`shared/` and run `npm` there directly. This has been gotten wrong repeatedly.
+
 **Client** (`client/`, dev port 5003):
 ```
 npm run dev --workspace=client      # vite dev server
