@@ -8,14 +8,10 @@ async function requireClubManager(
   res: Response,
   next: NextFunction,
 ) {
-  if (!req.user) {
-    throw new AppError("not authenticated", 401);
-  }
-
   const reqClubId = parseInt(req.params.clubId as string, 10);
 
   const userMembership = await prisma.membership.findUnique({
-    where: { userId_clubId: { userId: req.user.id, clubId: reqClubId } },
+    where: { userId_clubId: { userId: req.user!.id, clubId: reqClubId } },
     select: { isManager: true },
   });
 
