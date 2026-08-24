@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import prisma from "../db/prisma.js";
-import { AppError } from "../utils/AppError.js";
+import prisma from "../../db/prisma.js";
+import { AppError } from "../../utils/AppError.js";
 
 export async function getMe(req: Request, res: Response) {
   const user = await prisma.user.findUnique({

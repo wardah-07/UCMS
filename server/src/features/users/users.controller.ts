@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import type { UserCreationInput, UserUpdateInput } from "@ucms/shared";
-import { AppError } from "../utils/AppError.js";
-import prisma from "../db/prisma.js";
+import { AppError } from "../../utils/AppError.js";
+import prisma from "../../db/prisma.js";
 
 export async function createUser(
   req: Request<{}, {}, UserCreationInput>,

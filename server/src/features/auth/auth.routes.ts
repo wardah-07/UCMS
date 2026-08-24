@@ -1,12 +1,8 @@
 import { Router } from "express";
-import validateSchema from "../middleware/validateSchema.mw.js";
+import validateSchema from "../../middleware/validateSchema.mw.js";
 import { registerSchema, loginSchema } from "@ucms/shared";
-import {
-  loginUser,
-  logoutUser,
-  registerUser,
-} from "../controllers/auth.controller.js";
-import requireAuth from "../middleware/auth/requireAuth.mw.js";
+import { loginUser, logoutUser, registerUser } from "./auth.controller.js";
+import requireAuth from "../../middleware/auth/requireAuth.mw.js";
 
 export const authRouter = Router();
 

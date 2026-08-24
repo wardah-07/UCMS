@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import type { ClubCreationInput, Club } from "@ucms/shared";
-import prisma from "../db/prisma.js";
+import prisma from "../../db/prisma.js";
 
 export async function createClub(
   req: Request<{}, {}, ClubCreationInput>,
