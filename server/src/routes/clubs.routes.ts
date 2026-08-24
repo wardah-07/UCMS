@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { createClub } from "../controllers/clubs.controller.js";
+import {
+  createClub,
+  getClubs,
+  getMyClubs,
+} from "../controllers/clubs.controller.js";
 import requireAuth from "../middleware/auth/requireAuth.mw.js";
 import requireRoles from "../middleware/auth/requireRoles.mw.js";
 import validateSchema from "../middleware/validateSchema.mw.js";
@@ -14,3 +18,6 @@ clubsRouter.post(
   validateSchema(clubCreationSchema),
   createClub,
 );
+
+clubsRouter.get("/mine", requireAuth, getMyClubs);
+clubsRouter.get("/", getClubs);

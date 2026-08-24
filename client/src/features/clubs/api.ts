@@ -12,4 +12,14 @@ export const clubsApi = {
     const { data: club } = await apiClient.post("/clubs", data);
     return clubSchema.parse(club);
   },
+
+  async getClubs(): Promise<Club[]> {
+    const { data: clubs } = await apiClient.get("/clubs");
+    return clubs;
+  },
+
+  async getMyClubs(): Promise<Club[]> {
+    const { data: clubs } = await apiClient.get("/clubs/mine");
+    return clubs;
+  },
 };

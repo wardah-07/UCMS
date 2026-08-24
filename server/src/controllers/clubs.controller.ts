@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import type { ClubCreationInput } from "@ucms/shared";
+import type { ClubCreationInput, Club } from "@ucms/shared";
 import prisma from "../db/prisma.js";
 
 export async function createClub(
@@ -24,4 +24,32 @@ export async function createClub(
   });
 
   return res.status(201).json(club);
+}
+
+export async function getClubs(req: Request, res: Response<Club[]>) {
+  const clubs = await prisma.club.findMany({
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
+  });
+
+  return res.json(clubs);
+}
+
+// clubs the logged-in user manages, not just belongs to as a member
+export async function getMyClubs(req: Request, res: Response<Club[]>) {
+  const clubs = await prisma.club.findMany({
+    where: {
+      memberships: { some: { userId: req.user!.id, isManager: true } },
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
+  });
+
+  return res.json(clubs);
 }

@@ -8,7 +8,11 @@ import type { ClubCreationInput } from "@ucms/shared";
 const inputClasses =
   "w-full rounded-lg border border-border bg-surface px-3.5 py-2 text-sm text-ink placeholder:text-ink-soft/70 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
 
-const CreateClub = () => {
+type CreateClubProps = {
+  onCreated?: () => void;
+};
+
+const CreateClub = ({ onCreated }: CreateClubProps) => {
   const createClub = useCreateClub();
 
   const {
@@ -22,7 +26,12 @@ const CreateClub = () => {
   });
 
   function onSubmit(data: ClubCreationInput) {
-    createClub.mutate(data, { onSuccess: () => reset() });
+    createClub.mutate(data, {
+      onSuccess: () => {
+        reset();
+        onCreated?.();
+      },
+    });
   }
 
   return (
