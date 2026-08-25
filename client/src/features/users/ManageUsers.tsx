@@ -2,27 +2,14 @@ import { useState } from "react";
 import { useGetUsers, useUpdateUser } from "./queries";
 import { useCurrentUser } from "@/features/auth";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Stamp } from "@/components/ui/Stamp";
 import { getErrorMessage } from "@/lib/apiClient";
 import { roleSchema } from "@ucms/shared";
 import type { Role, User, UserUpdateInput } from "@ucms/shared";
 
 const ROLE_OPTIONS = roleSchema.options; // ["ADMIN", "ORGANIZER", "STUDENT"]
 
-const ROLE_BADGE_CLASSES: Record<Role, string> = {
-  ADMIN: "bg-danger-soft text-danger",
-  ORGANIZER: "bg-success-soft text-success",
-  STUDENT: "bg-brand-soft text-brand",
-};
-
-const RoleBadge = ({ role }: { role: Role }) => (
-  <span
-    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-      ROLE_BADGE_CLASSES[role] ?? "bg-surface-muted text-ink-soft"
-    }`}
-  >
-    {role}
-  </span>
-);
+const RoleBadge = ({ role }: { role: Role }) => <Stamp label={role} />;
 
 const StatusBadge = ({ isActive }: { isActive: boolean }) => (
   <span
@@ -74,7 +61,9 @@ const ManageUsers = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-lg font-semibold text-ink">Manage Users</h2>
+      <h2 className="font-display text-lg font-semibold text-ink">
+        Manage Users
+      </h2>
 
       {isLoading && <p className="text-sm text-ink-soft">Loading users…</p>}
 

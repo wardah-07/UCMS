@@ -5,6 +5,7 @@ import { getErrorMessage } from "@/lib/apiClient";
 import { ROUTES } from "@/constants/routes";
 import { getHomeRouteForRole } from "@/util/getHomeRouteForRole";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Stamp } from "@/components/ui/Stamp";
 import type { Role } from "@ucms/shared";
 
 const DASHBOARD_LABEL_BY_ROLE: Record<Role, string> = {
@@ -32,11 +33,11 @@ export default function RootLayout() {
 
   return (
     <div className="min-h-screen bg-paper">
-      <nav className="flex items-center justify-between border-b border-border bg-surface px-6 py-4 shadow-sm">
+      <nav className="flex items-center justify-between border-b border-border bg-surface px-6 py-4 shadow-[0_2px_0_0_var(--color-stamp)]">
         <div className="flex items-center gap-4">
           <Link
             to={ROUTES.STUDENT}
-            className="text-lg font-semibold tracking-tight text-ink"
+            className="font-display text-xl font-bold tracking-wide text-ink uppercase"
           >
             UCMS
           </Link>
@@ -50,8 +51,9 @@ export default function RootLayout() {
           )}
         </div>
         {user && (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <span className="text-sm text-ink-soft">{user.name}</span>
+            <Stamp label={user.role} />
             <button
               onClick={() => setShowLogoutConfirm(true)}
               disabled={logout.isPending}

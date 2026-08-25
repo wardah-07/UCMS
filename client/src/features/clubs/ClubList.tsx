@@ -1,5 +1,6 @@
 import type { Club, ClubUpdateInput } from "@ucms/shared";
 import { getErrorMessage } from "@/lib/apiClient";
+import { Stamp } from "@/components/ui/Stamp";
 
 const inputClasses =
   "w-full rounded-lg border border-border bg-surface px-2.5 py-1 text-sm text-ink placeholder:text-ink-soft/70 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/30";
@@ -105,7 +106,12 @@ const ClubList = ({
                   </div>
                 ) : (
                   <>
-                    <h3 className="font-semibold text-ink">{club.name}</h3>
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-display text-lg font-semibold text-ink">
+                        {club.name}
+                      </h3>
+                      {onStartEdit && <Stamp label="Manager" />}
+                    </div>
                     {club.description && (
                       <p className="mt-1 text-sm text-ink-soft">
                         {club.description}
