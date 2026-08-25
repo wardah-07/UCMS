@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/apiClient";
 import { clubSchema } from "@ucms/shared";
-import type { Club, ClubCreationInput } from "@ucms/shared";
+import type { Club, ClubCreationInput, ClubUpdateInput } from "@ucms/shared";
 
 // Responses are run through clubSchema.parse() rather than just asserted
 // with a generic (apiClient.post<Club>(...)) — a generic is a compile-time-
@@ -21,5 +21,14 @@ export const clubsApi = {
   async getMyClubs(): Promise<Club[]> {
     const { data: clubs } = await apiClient.get("/clubs/mine");
     return clubs;
+  },
+
+  async deleteClub(id: number): Promise<void> {
+    await apiClient.delete(`/clubs/${id}`);
+  },
+
+  async updateClub(id: number, data: ClubUpdateInput): Promise<Club> {
+    const { data: club } = await apiClient.patch(`/clubs/${id}`, data);
+    return clubSchema.parse(club);
   },
 };

@@ -2,8 +2,8 @@ import { useState } from "react";
 import { CreateClub, MyClubs, Clubs } from "@/features/clubs";
 
 const tabs = [
-  { key: "mine", label: "My clubs" },
   { key: "all", label: "All clubs" },
+  { key: "mine", label: "My clubs" },
   { key: "create", label: "Create club" },
 ] as const;
 
