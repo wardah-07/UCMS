@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
-import type { ClubCreationInput, Club } from "@ucms/shared";
+import type { ClubCreationInput, Club, ClubUpdateInput } from "@ucms/shared";
 import prisma from "../../db/prisma.js";
+import { AppError } from "../../utils/AppError.js";
+import type { ParamsDictionary } from "express-serve-static-core";
 
 export async function createClub(
   req: Request<{}, {}, ClubCreationInput>,
@@ -26,7 +28,7 @@ export async function createClub(
   return res.status(201).json(club);
 }
 
-export async function getClubs(req: Request, res: Response<Club[]>) {
+export async function getAllClubs(req: Request, res: Response<Club[]>) {
   const clubs = await prisma.club.findMany({
     select: {
       id: true,
@@ -52,4 +54,62 @@ export async function getMyClubs(req: Request, res: Response<Club[]>) {
   });
 
   return res.json(clubs);
+}
+
+interface ClubIdParams extends ParamsDictionary {
+  id: string;
+}
+
+export async function updateClub(
+  req: Request<ClubIdParams, unknown, ClubUpdateInput>,
+  res: Response<Club>,
+) {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    throw new AppError("invalid club id", 400);
+  }
+
+  const updates = req.body;
+
+  const club = await prisma.club
+    .update({
+      where: { id },
+      data: updates,
+      select: { id: true, name: true, description: true },
+    })
+    .catch((err) => {
+      if (err.code === "P2025") {
+        throw new AppError("club not found", 404);
+      }
+      throw err;
+    });
+
+  return res.status(200).json(club);
+}
+
+export async function deleteClub(req: Request<ClubIdParams>, res: Response) {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    throw new AppError("invalid club id", 400);
+  }
+
+  // the schema has no cascade on Club (memberships/events RESTRICT it), and
+  // a club always has at least its creator's own manager membership, so a
+  // plain `club.delete` would always fail with a foreign key violation -
+  // cascade manually in one transaction instead: deleting a club takes its
+  // memberships and events with it.
+  await prisma
+    .$transaction(async (tx) => {
+      await tx.event.deleteMany({ where: { clubId: id } });
+      await tx.membership.deleteMany({ where: { clubId: id } });
+      await tx.club.delete({ where: { id } });
+    })
+    .catch((err) => {
+      if (err.code === "P2025") {
+        throw new AppError("club not found", 404);
+      }
+      throw err;
+    });
+
+  return res.status(204).send();
 }

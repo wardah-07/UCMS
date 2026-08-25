@@ -46,10 +46,6 @@ export async function updateUser(
   req: Request<{ id: string }, {}, UserUpdateInput>,
   res: Response,
 ) {
-  if (!req.user) {
-    throw new AppError("not authenticated", 401);
-  }
-
   const id = Number(req.params.id);
   if (!Number.isInteger(id)) {
     throw new AppError("invalid user id", 400);
@@ -57,7 +53,7 @@ export async function updateUser(
 
   const updates = req.body; // already validated + partial (@ucms/shared userUpdateSchema)
 
-  if (updates.isActive === false && req.user.id === id) {
+  if (updates.isActive === false && req.user!.id === id) {
     throw new AppError("you cannot deactivate your own account", 400);
   }
 

@@ -8,10 +8,13 @@ async function requireClubManager(
   res: Response,
   next: NextFunction,
 ) {
-  const reqClubId = parseInt(req.params.clubId as string, 10);
+  const clubId = parseInt(req.params.id as string, 10);
+  if (!Number.isInteger(clubId)) {
+    throw new AppError("invalid club id", 400);
+  }
 
   const userMembership = await prisma.membership.findUnique({
-    where: { userId_clubId: { userId: req.user!.id, clubId: reqClubId } },
+    where: { userId_clubId: { userId: req.user!.id, clubId: clubId } },
     select: { isManager: true },
   });
 
