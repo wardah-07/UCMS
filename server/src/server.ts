@@ -1,10 +1,11 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { authRouter } from "./routes/auth.routes.js";
-import { meRouter } from "./routes/me.routes.js";
+import { authRouter } from "./features/auth/auth.routes.js";
+import { meRouter } from "./features/me/me.routes.js";
 import errorMiddleware from "./middleware/error.mw.js";
-import { usersRouter } from "./routes/users.routes.js";
+import { usersRouter } from "./features/users/users.routes.js";
+import { clubsRouter } from "./features/clubs/clubs.routes.js";
 import type { Express } from "express";
 
 process.loadEnvFile();
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/me", meRouter);
 app.use("/api/users", usersRouter);
-
+app.use("/api/clubs", clubsRouter);
 //error handling middleware
 app.use(errorMiddleware);
 

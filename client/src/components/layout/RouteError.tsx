@@ -17,7 +17,7 @@ export default function RouteError() {
     <div className="flex min-h-[calc(100vh-65px)] flex-col items-center justify-center gap-4 px-4 text-center">
       <div className="flex flex-col items-center gap-2">
         <p className="text-sm font-medium text-danger">Error</p>
-        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+        <h1 className="font-display text-3xl font-bold tracking-wide text-ink uppercase">
           Something went wrong
         </h1>
         <p className="text-sm text-ink-soft">{message}</p>

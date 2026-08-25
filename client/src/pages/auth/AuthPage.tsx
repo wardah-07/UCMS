@@ -7,7 +7,7 @@ export default function AuthPage() {
   return (
     <div className="flex min-h-[calc(100vh-65px)] items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm rounded-2xl border border-border bg-surface p-8 shadow-sm">
-        <h1 className="text-center text-xl font-semibold tracking-tight text-ink">
+        <h1 className="font-display text-center text-2xl font-bold tracking-wide text-ink uppercase">
           Welcome to UCMS
         </h1>
         <p className="mt-1 text-center text-sm text-ink-soft">

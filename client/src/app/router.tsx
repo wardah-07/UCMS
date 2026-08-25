@@ -10,6 +10,7 @@ import RouteError from "@/components/layout/RouteError";
 import { ROUTES } from "@/constants/routes";
 import type { Route } from "@/constants/routes";
 import UserOperations from "@/pages/admin/UserOperations";
+import ClubOperations from "@/pages/organizer/ClubOperations";
 
 // child route paths under the pathless RootLayout must be relative
 const relative = (path: Route) => path.slice(1);
@@ -39,7 +40,13 @@ export const router = createBrowserRouter([
       {
         path: ROUTES.ORGANIZER,
         loader: requireRole("ORGANIZER"),
-        children: [{ index: true, element: <OrganizerDashboard /> }],
+        children: [
+          { index: true, element: <OrganizerDashboard /> },
+          {
+            path: relative(ROUTES.ORGANIZER_CLUB_MANAGEMENT),
+            element: <ClubOperations />,
+          },
+        ],
       },
       {
         path: ROUTES.ADMIN,

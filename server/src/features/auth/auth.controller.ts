@@ -2,8 +2,8 @@ import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import type { RegisterInput, LoginInput } from "@ucms/shared";
-import { AppError } from "../utils/AppError.js";
-import prisma from "../db/prisma.js";
+import { AppError } from "../../utils/AppError.js";
+import prisma from "../../db/prisma.js";
 
 export async function registerUser(
   req: Request<{}, {}, RegisterInput>,
